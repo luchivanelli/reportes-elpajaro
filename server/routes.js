@@ -17,23 +17,32 @@ router.post("/expenses", createExpense);
 router.put("/expenses/:id", updateExpense);
 router.delete("/expenses/:id", deleteExpense);  
 
-router.get("/incomes/categories", (req, res) => {
-  pool.query("SELECT * FROM cat_ingreso", (err, result) => {
-    if (err) return res.status(500).json({ error: "Error en la consulta" });
-    res.json(result);
-  })
-})
+router.get("/incomes/categories", async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT * FROM cat_ingreso");
+    res.json(rows);
+  } catch (err) {
+    console.error("Error en /incomes/categories:", err.sqlMessage || err);
+    res.status(500).json({ error: "Error en la consulta" });
+  }
+});
 
-router.get("/expenses/categories", (req, res) => {
-  pool.query("SELECT * FROM cat_egreso", (err, result) => {
-    if (err) return res.status(500).json({ error: "Error en la consulta" });
-    res.json(result);
-  })
-})
+router.get("/expenses/categories", async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT * FROM cat_egreso");
+    res.json(rows);
+  } catch (err) {
+    console.error("Error en /expenses/categories:", err.sqlMessage || err);
+    res.status(500).json({ error: "Error en la consulta" });
+  }
+});
 
-router.get("/payments", (req, res) => {
-  pool.query("SELECT * FROM metodo_pago", (err, result) => {
-    if (err) return res.status(500).json({ error: "Error en la consulta" });
-    res.json(result);
-  })
-})
+router.get("/payments", async (req, res) => {
+  try {
+    const [rows] = await pool.query("SELECT * FROM metodo_pago");
+    res.json(rows);
+  } catch (err) {
+    console.error("Error en /payments:", err.sqlMessage || err);
+    res.status(500).json({ error: "Error en la consulta" });
+  }
+});
