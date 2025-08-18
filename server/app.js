@@ -20,10 +20,14 @@ connection.connect((err) => {
 });
 
 app.use(cors({
-  origin: [process.env.FRONTEND_URL || 'http://localhost:5173'],
+  origin: [process.env.FRONTEND_URL || 'http://localhost:5173', "https://reportes-elpajaro.vercel.app"],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+app.get("/", (req, res) => {
+  res.send("Servidor corriendo correctamente");
+});
 
 //Permite que funcione el "req.body" en los controllers
 app.use(express.json());
