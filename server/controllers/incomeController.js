@@ -9,7 +9,7 @@ export const getIncomes = async (req, res) => {
     res.json(rows);
   } catch (err) {
     console.error("Error en getIncomes:", err);
-    res.status(500).json({ error: "Error en la consulta" });
+    res.status(500).json({ error: "Error en la consulta", details: err.sqlMessage });
   }
 };
 
