@@ -29,7 +29,6 @@ app.use(cors({
 app.get("/", async (req, res) => {
   try {
     // test rápido de conexión
-    const [rows] = await pool.query("SELECT 1");
     res.send("Servidor corriendo y DB conectada ✅");
   } catch (err) {
     console.error("Error probando DB:", err);
@@ -41,7 +40,7 @@ app.get("/", async (req, res) => {
 app.use(express.json());
 
 //Establece el uso de todos endpoints (rutas)
-app.use("/api", router)
+app.use("/", router)
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
