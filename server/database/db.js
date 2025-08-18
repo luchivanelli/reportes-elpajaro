@@ -29,7 +29,7 @@ const pool = mysql.createPool({
   queueLimit: 0,
   connectTimeout: 20000,
   ssl: {
-    rejectUnauthorized: true // algunos hostings lo requieren
+    rejectUnauthorized: false // algunos hostings lo requieren
   }
 });
 
