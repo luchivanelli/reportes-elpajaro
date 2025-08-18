@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+body {
+    color: white;
+    background: #083d61;
+    background: linear-gradient(45deg,rgba(8, 61, 97, 1) 0%, rgba(7, 25, 43, 1) 100%);
+}
+
+#card-home-1 {
+    background: #01578f80;
+}
+
+#card-home-2 {   
+    background: #c3191a80;
+}
+
+#card-home-3 {
+    background: #EF841080;
+}
+
+button {
+  cursor: pointer;
+}
+
+.loader {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+  margin:15px auto;
+  position: relative;
+  color: #c3191a;
+  box-sizing: border-box;
+  animation: animloader 1s linear infinite alternate;
+}
+
+@media screen and (min-width: 767px) {
+  .loader {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@keyframes animloader {
+  0% {
+    box-shadow: -38px -12px ,  -14px 0,  14px 0, 38px 0;
+  }
+  33% {
+    box-shadow: -38px 0px, -14px -12px,  14px 0, 38px 0;
+  }
+  66% {
+    box-shadow: -38px 0px , -14px 0, 14px -12px, 38px 0;
+  }
+  100% {
+    box-shadow: -38px 0 , -14px 0, 14px 0 , 38px -12px;
+  }
+}
