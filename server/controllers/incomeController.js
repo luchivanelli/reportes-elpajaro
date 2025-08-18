@@ -1,5 +1,5 @@
 // import { connection } from "../database/db.js";
-import pool from "../database/db";
+import pool from "../database/db.js";
 
 // Controladores para manejar las operaciones de ingresos
 
