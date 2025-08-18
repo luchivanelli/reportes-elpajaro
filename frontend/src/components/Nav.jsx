@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom"
-import logo2 from "../assets/logo2.PNG";
+import logo2 from "../assets/logo2.png"
 import home from "../assets/home.svg";
 import report from "../assets/report.svg";
 import plus from "../assets/hexagon-plus.svg";
