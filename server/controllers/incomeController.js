@@ -9,7 +9,7 @@ export const getIncomes = async (req, res) => {
     res.json(rows);
   } catch (err) {
     console.error("Error en getIncomes:", err);
-    res.status(500).json({ error: "Error en la consulta", details: err.sqlMessage });
+    res.status(500).json({ error: err, details: err.sqlMessage });
   }
 };
 
@@ -24,7 +24,7 @@ export const createIncome = async (req, res) => {
     res.json({ message: "Ingreso creado", id: result.insertId });
   } catch (err) {
     console.error("Error en createIncome:", err);
-    res.status(500).json({ error: "Error en la consulta" });
+    res.status(500).json({ error: err, details: err.sqlMessage });
   }
 };
 
@@ -41,7 +41,7 @@ export const updateIncome = async (req, res) => {
     res.json({ message: "Ingreso actualizado", affectedRows: result.affectedRows });
   } catch (err) {
     console.error("Error en updateIncome:", err);
-    res.status(500).json({ error: "Error en la consulta" });
+    res.status(500).json({ error: "Error en la consulta", details: err.sqlMessage });
   }
 };
 
@@ -53,6 +53,6 @@ export const deleteIncome = async (req, res) => {
     res.json({ message: "Ingreso eliminado", affectedRows: result.affectedRows });
   } catch (err) {
     console.error("Error en deleteIncome:", err);
-    res.status(500).json({ error: "Error en la consulta" });
+    res.status(500).json({ error: "Error en la consulta", details: err.sqlMessage });
   }
 };
