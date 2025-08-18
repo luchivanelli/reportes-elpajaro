@@ -1,5 +1,6 @@
 import express from 'express';
-import { connection } from './database/db.js';
+// import { connection } from './database/db.js';
+import pool from './database/db.js';
 import { verifyToken } from './middleware/verifyToken.js'
 import { getIncomes, createIncome, updateIncome, deleteIncome } from './controllers/incomeController.js';
 import { getExpenses ,createExpense, updateExpense, deleteExpense } from './controllers/expensesController.js';
@@ -17,21 +18,21 @@ router.put("/expenses/:id", updateExpense);
 router.delete("/expenses/:id", deleteExpense);  
 
 router.get("/incomes/categories", (req, res) => {
-  connection.query("SELECT * FROM cat_ingreso", (err, result) => {
+  pool.query("SELECT * FROM cat_ingreso", (err, result) => {
     if (err) return res.status(500).json({ error: "Error en la consulta" });
     res.json(result);
   })
 })
 
 router.get("/expenses/categories", (req, res) => {
-  connection.query("SELECT * FROM cat_egreso", (err, result) => {
+  pool.query("SELECT * FROM cat_egreso", (err, result) => {
     if (err) return res.status(500).json({ error: "Error en la consulta" });
     res.json(result);
   })
 })
 
 router.get("/payments", (req, res) => {
-  connection.query("SELECT * FROM metodo_pago", (err, result) => {
+  pool.query("SELECT * FROM metodo_pago", (err, result) => {
     if (err) return res.status(500).json({ error: "Error en la consulta" });
     res.json(result);
   })

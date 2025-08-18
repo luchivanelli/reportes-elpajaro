@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import { router } from './routes.js';
-import { connection } from './database/db.js';
+// import { connection } from './database/db.js';
+import pool from './database/db.js';
 import { verifyToken } from './middleware/verifyToken.js';
 import dotenv from "dotenv";
 
@@ -11,12 +12,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Conectar a la base de datos
-connection.connect((err) => {
+pool.connect((err) => {
   if (err) {
     console.error('Error de conexión: ' + err.stack);
     return;
   }
-  console.log('Conectado a la base de datos con el id ' + connection.threadId);
+  console.log('Conectado a la base de datos con el id ' + pool.threadId);
 });
 
 app.use(cors({
