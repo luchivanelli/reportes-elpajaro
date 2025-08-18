@@ -11,8 +11,8 @@ dotenv.config();
 // });
 
 export const connection = mysql2.createConnection({
-    host: bpa1yxhjhwbhnuhuzze4-mysql.services.clever-cloud.com,
-    user: unhiiswmbyubs4bl,
-    password: ijgEm88w3fV3SXNDwkF5,
-    database: bpa1yxhjhwbhnuhuzze4,
+    host: "bpa1yxhjhwbhnuhuzze4-mysql.services.clever-cloud.com",
+    user: "unhiiswmbyubs4bl",
+    password: "ijgEm88w3fV3SXNDwkF5",
+    database: "bpa1yxhjhwbhnuhuzze4",
 });
