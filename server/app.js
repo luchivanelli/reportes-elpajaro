@@ -11,14 +11,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Conectar a la base de datos
-pool.connect((err) => {
-  if (err) {
-    console.error('Error de conexión: ' + err.stack);
-    return;
-  }
-  console.log('Conectado a la base de datos con el id ' + pool.threadId);
-});
+// // Conectar a la base de datos
+// connection.connect((err) => {
+//   if (err) {
+//     console.error('Error de conexión: ' + err.stack);
+//     return;
+//   }
+//   console.log('Conectado a la base de datos con el id ' + pool.threadId);
+// });
 
 app.use(cors({
   origin: [process.env.FRONTEND_URL || 'http://localhost:5173', "https://reportes-elpajaro.vercel.app"],
@@ -26,8 +26,15 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-app.get("/", (req, res) => {
-  res.send("Servidor corriendo correctamente");
+app.get("/", async (req, res) => {
+  try {
+    // test rápido de conexión
+    const [rows] = await pool.query("SELECT 1");
+    res.send("Servidor corriendo y DB conectada ✅");
+  } catch (err) {
+    console.error("Error probando DB:", err);
+    res.status(500).send("Error conectando con la DB ❌");
+  }
 });
 
 //Permite que funcione el "req.body" en los controllers
