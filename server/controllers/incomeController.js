@@ -4,7 +4,7 @@ import { connection } from "../database/db.js";
 
 export const getIncomes = (req, res) => {
   connection.query("SELECT * FROM ingresos", (err, result) => {
-    if (err) return res.status(500).json({ error: "Error en la consulta" });
+    if (err) return res.status(500).json({ error: err.message });
     res.json(result);
   })
 }
