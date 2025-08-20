@@ -42,7 +42,7 @@ const ModalDetail = ({item, handleClose}) => {
               toast.dismiss(t.id);
               setTimeout(() => {
                 handleClose();
-              }, 3000);
+              }, 2000);
             }}
           >
             Confirmar

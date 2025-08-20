@@ -47,6 +47,9 @@ const AddExpense = () => {
       setErrors(validationErrors);
       return; // no continuar si hay errores
     }
+
+    const button = document.getElementById("button-add-expense")
+    button.disabled = true; // deshabilitar el botón para evitar múltiples envíos
     
     // llamada a la mutación para agregar el egreso
     addExpense(expenseData)
@@ -57,7 +60,8 @@ const AddExpense = () => {
         setTimeout(()=> {
             e.target.reset();
             navigate("/reportes");
-        }, 4000)
+            button.disabled = false; // reactivar el botón después de la redirección
+        }, 2500)
       })
       .catch((error) => {
         console.error('Error en la consulta:', error);
@@ -116,7 +120,7 @@ const AddExpense = () => {
           {errors.payment && <span className="text-[#c3191a] text-sm md:text-base">{errors.payment}</span>}
         </div>
         <div className="flex flex-col md:flex-row gap-2 justify-center items-center w-full">
-          <button type="submit" className="font-semibold bg-[#01578f] text-white mt-3 py-1 rounded-md w-full">Guardar</button>
+          <button id="button-add-expense" type="submit" className="font-semibold bg-[#01578f] text-white mt-3 py-1 rounded-md w-full">Guardar</button>
           <button type="button" onClick={()=> navigate("/reportes")} className="font-semibold bg-[#c3191a] text-white mt-1 md:mt-3 py-1 rounded-md w-full">Cancelar</button>
         </div>
       </form>
