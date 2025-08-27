@@ -23,7 +23,7 @@ const Reports = () => {
   // Combina datos y los ordena inicialmente
   useEffect(() => {
     const merged = [...expenses, ...incomes].sort(
-      (a, b) => new Date(b.fecha) - new Date(a.fecha) // Descendente por defecto
+      (a, b) => parseDate(b.fecha) - parseDate(a.fecha) // Descendente por defecto
     );
     setReports(merged);
   }, [expenses, incomes]);
