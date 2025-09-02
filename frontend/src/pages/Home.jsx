@@ -13,9 +13,12 @@ const Home = () => {
   if (isLoading1 || isLoading2 || isLoading3 || isLoading4) return <Loader />
 
   const categories = [...incomeCategories, ...expenseCategories]
-  const totalIncome = incomes.reduce((acc, income) => acc + Number(income.monto), 0);
-  const totalExpense = expenses.reduce((acc, expense) => acc + Number(expense.monto), 0);
+  let totalExpense, totalIncome
 
+  if (incomes && expenses) {
+    totalIncome = incomes.reduce((acc, income) => acc + Number(income.monto), 0);
+    totalExpense = expenses.reduce((acc, expense) => acc + Number(expense.monto), 0);
+  }
 
   return (
     <main className="h-screen flex overflow-y-hidden w-full md:max-w-[1200px] md:mx-auto">

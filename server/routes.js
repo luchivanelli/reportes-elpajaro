@@ -4,18 +4,24 @@ import pool from './database/db.js';
 import { verifyToken } from './middleware/verifyToken.js'
 import { getIncomes, createIncome, updateIncome, deleteIncome } from './controllers/incomeController.js';
 import { getExpenses ,createExpense, updateExpense, deleteExpense } from './controllers/expensesController.js';
+import { login } from './controllers/loginController.js';
 
 export const router = express.Router()
 
-router.get("/incomes", getIncomes);
-router.post("/incomes", createIncome);
-router.put("/incomes/:id", updateIncome);
-router.delete("/incomes/:id", deleteIncome);
+router.get("/login", (req, res) => {
+  res.json({message: "conexion exitosa"})
+})
+router.post("/login", login)
 
-router.get("/expenses", getExpenses);
-router.post("/expenses", createExpense);
-router.put("/expenses/:id", updateExpense);
-router.delete("/expenses/:id", deleteExpense);  
+router.get("/incomes", verifyToken, getIncomes);
+router.post("/incomes", verifyToken, createIncome);
+router.put("/incomes/:id", verifyToken, updateIncome);
+router.delete("/incomes/:id", verifyToken, deleteIncome);
+
+router.get("/expenses", verifyToken, getExpenses);
+router.post("/expenses", verifyToken, createExpense);
+router.put("/expenses/:id", verifyToken, updateExpense);
+router.delete("/expenses/:id", verifyToken, deleteExpense);  
 
 router.get("/incomes/categories", async (req, res) => {
   try {

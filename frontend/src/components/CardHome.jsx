@@ -14,6 +14,7 @@ const CardHome = ({idCard, title, number, options}) => {
   const [endDate, setEndDate] = useState("");
 
   if (isLoadingExpenses || isLoadingIncomes) return <Loader/>;
+  if (!incomes || !expenses) return
 
   // filtrar por dia (card 4)
   if (idCard === "card-home-4") {

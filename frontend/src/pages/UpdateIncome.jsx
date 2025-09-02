@@ -56,10 +56,19 @@ const UpdateIncome = () => {
     
     // llamada a la mutación para editar el ingreso
     updateIncome({id, incomeData})
-      .then(() => {
-        toast.success("Ingreso actualizado correctamente. Redirigiendo a la sección 'Reportes'", {
-          style : {backgroundColor: "#fff", color : "#01578f", borderColor: "#01578f", fontSize: "16px"}
-        })
+      .then((data) => {
+        if (data.error && data.error.status === 401) {
+          toast.error("Tu sesión expiró. Iniciá sesión de nuevo.");
+          setTimeout(()=> {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userType');
+            navigate('/inicio-sesion', { replace: true });
+          }, 2500)
+        } else {
+          toast.success("Ingreso actualizado correctamente. Redirigiendo a la sección 'Reportes'", {
+            style : {backgroundColor: "#fff", color : "#01578f", borderColor: "#01578f", fontSize: "16px"}
+          })
+        }
         setTimeout(()=> {
             e.target.reset();
             navigate("/reportes");

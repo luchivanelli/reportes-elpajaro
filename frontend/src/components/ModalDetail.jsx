@@ -1,7 +1,7 @@
 import { toast, Toaster } from 'sonner';
 import { useDeleteExpenseMutation } from '../store/features/expenseSlice';
 import { useDeleteIncomeMutation } from '../store/features/incomeSlice';
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 
 const ModalDetail = ({item, handleClose}) => {
   const [deleteIncome] = useDeleteIncomeMutation();
@@ -30,14 +30,44 @@ const ModalDetail = ({item, handleClose}) => {
             className="bg-white text-[#EF8410] px-3 py-1 rounded-md font-semibold"
             onClick={() => {
               if (item.id_ingreso) {
-                deleteIncome(item.id_ingreso);
+                deleteIncome(item.id_ingreso)
+                  .then((data) => {
+                    if (data.error && data.error.status === 401) {
+                      toast.error("Tu sesión expiró. Iniciá sesión de nuevo.");
+                      setTimeout(()=> {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('userType');
+                        navigate('/inicio-sesion', { replace: true });
+                      }, 2500)
+                    } else {
+                      toast.success("Reporte eliminado correctamente", {
+                        style : {backgroundColor: "#fff", color : "#01578f", borderColor: "#01578f", fontSize: "16px"}
+                      })
+                    }
+                  })
+                  .catch((error) => {
+                    console.error('Error en la consulta:', error);
+                  });
               } else {
-                deleteExpense(item.id_egreso);
+                deleteExpense(item.id_egreso)
+                  .then((data) => {
+                    if (data.error && data.error.status === 401) {
+                      toast.error("Tu sesión expiró. Iniciá sesión de nuevo.");
+                      setTimeout(()=> {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('userType');
+                        navigate('/inicio-sesion', { replace: true });
+                      }, 2500)
+                    } else {
+                      toast.success("Reporte eliminado correctamente", {
+                        style : {backgroundColor: "#fff", color : "#01578f", borderColor: "#01578f", fontSize: "16px"}
+                      })
+                    }
+                  })
+                  .catch((error) => {
+                    console.error('Error en la consulta:', error);
+                  });
               }
-
-              toast.success("Reporte eliminado correctamente", {
-                style: {backgroundColor: "#fff", color : "#01578f", borderColor: "#01578f", fontSize: "16px"},
-              });
 
               toast.dismiss(t.id);
               setTimeout(() => {

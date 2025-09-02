@@ -4,8 +4,16 @@ import pool from "../database/db.js";
 // Controladores para manejar las operaciones de ingresos
 
 export const getIncomes = async (req, res) => {
+  const { tipo } = req.user;
+  let query
+  if (tipo == "demo") {
+    query = "SELECT * FROM demo_ingresos"
+  } else {
+    query = "SELECT * FROM ingresos"
+  }
+
   try {
-    const [rows] = await pool.query("SELECT * FROM ingresos");
+    const [rows] = await pool.query(query);
     res.json(rows);
   } catch (err) {
     console.error("Error en getIncomes:", err);
@@ -15,10 +23,20 @@ export const getIncomes = async (req, res) => {
 
 export const createIncome = async (req, res) => {
   const { description, amount, date, payment, category } = req.body;
-  const query = `
-    INSERT INTO ingresos (descripcion, monto, fecha, id_metodo_pago, id_cat_ingreso) 
-    VALUES (?, ?, ?, ?, ?)
-  `;
+  const { tipo } = req.user;
+  let query
+  if (tipo == "demo") {
+    query = `
+      INSERT INTO demo_ingresos (descripcion, monto, fecha, id_metodo_pago, id_cat_ingreso) 
+      VALUES (?, ?, ?, ?, ?)
+    `;
+  } else {
+    query = `
+      INSERT INTO ingresos (descripcion, monto, fecha, id_metodo_pago, id_cat_ingreso) 
+      VALUES (?, ?, ?, ?, ?)
+    `;
+  }
+
   try {
     const [result] = await pool.query(query, [description, amount, date, payment, category]);
     res.json({ message: "Ingreso creado", id: result.insertId });
@@ -31,11 +49,22 @@ export const createIncome = async (req, res) => {
 export const updateIncome = async (req, res) => {
   const { id } = req.params;
   const { description, amount, date, payment, category } = req.body;
-  const query = `
-    UPDATE ingresos 
-    SET descripcion = ?, monto = ?, fecha = ?, id_metodo_pago = ?, id_cat_ingreso = ? 
-    WHERE id_ingreso = ?
-  `;
+  const { tipo } = req.user;
+  let query
+  if (tipo == "demo") {
+    query = `
+      UPDATE demo_ingresos 
+      SET descripcion = ?, monto = ?, fecha = ?, id_metodo_pago = ?, id_cat_ingreso = ? 
+      WHERE id_ingreso = ?
+    `
+  } else {
+    query = `
+      UPDATE ingresos 
+      SET descripcion = ?, monto = ?, fecha = ?, id_metodo_pago = ?, id_cat_ingreso = ? 
+      WHERE id_ingreso = ?
+    `
+  }
+
   try {
     const [result] = await pool.query(query, [description, amount, date, payment, category, id]);
     res.json({ message: "Ingreso actualizado", affectedRows: result.affectedRows });
@@ -47,7 +76,14 @@ export const updateIncome = async (req, res) => {
 
 export const deleteIncome = async (req, res) => {
   const { id } = req.params;
-  const query = "DELETE FROM ingresos WHERE id_ingreso = ?";
+  const { tipo } = req.user;
+  let query
+  if (tipo == "demo") {
+    query = "DELETE FROM demo_ingresos WHERE id_ingreso = ?"
+  } else {
+    query = "DELETE FROM ingresos WHERE id_ingreso = ?"
+  }
+
   try {
     const [result] = await pool.query(query, [id]);
     res.json({ message: "Ingreso eliminado", affectedRows: result.affectedRows });
