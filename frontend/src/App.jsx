@@ -7,17 +7,34 @@ import Reports from './pages/Reports.jsx';
 import UpdateIncome from './pages/UpdateIncome.jsx';
 import UpdateExpense from './pages/UpdateExpense.jsx';
 import Login from './pages/Login.jsx';
+import { jwtDecode } from "jwt-decode";
 
 // Componente para proteger rutas
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
   const location = useLocation();
-  
+
   if (!token) {
-    // Redirige al login y guarda la ubicación actual
+    // Si no hay token → login
     return <Navigate to="/inicio-sesion" state={{ from: location }} replace />;
   }
-  
+
+  try {
+    const { exp } = jwtDecode(token);
+    //Verificar si la hora actual es mayor o igual a la hora de expiración
+    if (Date.now() >= exp * 1000) {
+      // Token vencido → limpiar y redirigir
+      localStorage.removeItem("token");
+      localStorage.removeItem("userType");
+      return <Navigate to="/inicio-sesion" state={{ from: location }} replace />;
+    }
+  } catch (e) {
+    // Token inválido o corrupto → limpiar y redirigir
+    localStorage.removeItem("token");
+    localStorage.removeItem("userType");
+    return <Navigate to="/inicio-sesion" state={{ from: location }} replace />;
+  }
+
   return children;
 };
 
@@ -85,7 +102,7 @@ const AppContent = () => {
           </ProtectedRoute>
         } />
 
-        {/* Ruta catch-all para rutas no encontradas */}
+        {/* Ruta catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>
@@ -100,4 +117,4 @@ const App = () => {
   );
 };
 
-export default App
+export default App;

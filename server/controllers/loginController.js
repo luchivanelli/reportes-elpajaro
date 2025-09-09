@@ -10,12 +10,12 @@ export const login = async (req, res) => {
     if (result.length != 0) {
       if (username == "demo") {
         const token = jwt.sign({ username, tipo: "demo" }, "Stack", {
-          expiresIn: "120m",
+          expiresIn: "20s",
         });
         return res.json({ token, tipo: "demo" });
       } else {
         const token = jwt.sign({ username, tipo: "real" }, "Stack", {
-          expiresIn: "120m",
+          expiresIn: "20s",
         });
         return res.json({ token, tipo: "real" });
       }
