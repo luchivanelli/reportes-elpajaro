@@ -14,7 +14,7 @@ export const login = async (req, res) => {
           expiresIn: "120m",
         });
         return res.json({ token, tipo: "real" });
-      } else if (username == "demo"){
+      } else if (username == "demo" || username == "Demo") {
         const token = jwt.sign({ username, tipo: "demo" }, "Stack", {
           expiresIn: "120m",
         });
