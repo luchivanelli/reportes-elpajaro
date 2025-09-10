@@ -3,6 +3,7 @@ import pool from "../database/db.js"
 
 export const login = async (req, res) => {
   const { username, password } = req.body;
+  console.log(username, password)
   const query = "SELECT * FROM login WHERE usuario = ? AND contraseña = ?";
 
   try {
@@ -22,7 +23,7 @@ export const login = async (req, res) => {
     } else {
       res.status(404).json({message: "Credenciales incorrectas"})
     }
-  } catch {
+  } catch (err) {
     console.error("Error en login:", err);
     res.status(500).json({ error: "Error en la consulta", details: err.sqlMessage });
   }
