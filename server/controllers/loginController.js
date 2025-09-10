@@ -8,13 +8,14 @@ export const login = async (req, res) => {
 
   try {
     const [result] = await pool.query(query, [username, password])
+    const normalizedUsername = username.toLowerCase();
     if (result.length != 0) {
-      if (username == "brianvanelli") {
+      if (normalizedUsername == "brianvanelli") {
         const token = jwt.sign({ username, tipo: "real" }, "Stack", {
           expiresIn: "120m",
         });
         return res.json({ token, tipo: "real" });
-      } else if (username == "demo" || username == "Demo") {
+      } else if (normalizedUsername == "demo") {
         const token = jwt.sign({ username, tipo: "demo" }, "Stack", {
           expiresIn: "120m",
         });
