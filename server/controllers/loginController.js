@@ -9,16 +9,16 @@ export const login = async (req, res) => {
   try {
     const [result] = await pool.query(query, [username, password])
     if (result.length != 0) {
-      if (username == "demo") {
-        const token = jwt.sign({ username, tipo: "demo" }, "Stack", {
-          expiresIn: "120m",
-        });
-        return res.json({ token, tipo: "demo" });
-      } else {
+      if (username == "brianvanelli") {
         const token = jwt.sign({ username, tipo: "real" }, "Stack", {
           expiresIn: "120m",
         });
         return res.json({ token, tipo: "real" });
+      } else if (username == "demo"){
+        const token = jwt.sign({ username, tipo: "demo" }, "Stack", {
+          expiresIn: "120m",
+        });
+        return res.json({ token, tipo: "demo" });
       }
     } else {
       res.status(404).json({message: "Credenciales incorrectas"})
